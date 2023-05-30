@@ -8,13 +8,10 @@ FetchContent_Declare(rtlog-cpp
         GIT_REPOSITORY https://github.com/cjappl/rtlog-cpp
         GIT_PROGRESS TRUE
         GIT_REMOTE_UPDATE_STRATEGY CHECKOUT
-        GIT_TAG b834c53
+        GIT_TAG main
         )
 
 FetchContent_MakeAvailable(rtlog-cpp)
 
 add_executable(audioapp Logging.cpp main.cpp)
-target_link_libraries(audioapp
-        PRIVATE
-        rtlog::rtlog
-        )
+target_link_libraries(audioapp PRIVATE rtlog::rtlog)

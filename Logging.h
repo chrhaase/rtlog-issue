@@ -35,11 +35,11 @@ struct LogData
     LogRegion region;
 };
 
-std::atomic<std::size_t> gSequenceNumber;
+extern std::atomic<std::size_t> gSequenceNumber;
 using RealtimeLogger =
     rtlog::Logger<LogData, MAX_NUM_LOG_MESSAGES, MAX_LOG_MESSAGE_LENGTH, gSequenceNumber>;
 
-RealtimeLogger gRealtimeLogger;
+extern RealtimeLogger gRealtimeLogger;
 
 #define EVR_RTLOG_DEBUG(Region, fstring, ...)                                                      \
     gRealtimeLogger.Log ({ LogLevel::Debug, Region }, fstring, ##__VA_ARGS__)

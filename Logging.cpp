@@ -6,6 +6,9 @@
 namespace evr
 {
 
+std::atomic<std::size_t> gSequenceNumber { 0 };
+RealtimeLogger gRealtimeLogger {};
+
 const char* to_string (LogLevel level)
 {
     switch (level)
