@@ -5,6 +5,10 @@
 #pragma once
 #include <rtlog/rtlog.h>
 
+#ifndef DECLARE_GLOBAL_VARIABLES_EXTERN
+#define DECLARE_GLOBAL_VARIABLES_EXTERN 1
+#endif
+
 namespace evr
 {
 
@@ -35,11 +39,19 @@ struct LogData
     LogRegion region;
 };
 
-std::atomic<std::size_t> gSequenceNumber;
+#if DECLARE_GLOBAL_VARIABLES_EXTERN
+extern std::atomic<std::size_t> gSequenceNumber;
 using RealtimeLogger =
     rtlog::Logger<LogData, MAX_NUM_LOG_MESSAGES, MAX_LOG_MESSAGE_LENGTH, gSequenceNumber>;
 
-RealtimeLogger gRealtimeLogger;
+extern RealtimeLogger gRealtimeLogger;
+#else
+static std::atomic<std::size_t> gSequenceNumber;
+using RealtimeLogger =
+    rtlog::Logger<LogData, MAX_NUM_LOG_MESSAGES, MAX_LOG_MESSAGE_LENGTH, gSequenceNumber>;
+
+static RealtimeLogger gRealtimeLogger;
+#endif
 
 #define EVR_RTLOG_DEBUG(Region, fstring, ...)                                                      \
     gRealtimeLogger.Log ({ LogLevel::Debug, Region }, fstring, ##__VA_ARGS__)
